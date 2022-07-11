@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function (){
+			
+			$.ajax({ 
+	                type: "get",
+	                url : "http://sample.bmaster.kro.kr/contacts?pageno=3&pagesize=10", 
+	                success : function(result) { 
+	                	console.log(result);
+	                	
+	                	$("#list-table").append(
+	                			 $("<tr></tr>")
+	                				.append($("<td></td>").text("번호"))
+	                				.append($("<td></td>").text("이름"))
+	                				.append($("<td></td>").text("전화번호"))
+	                				.append($("<td></td>").text("주소"))
+	                				.append($("<td></td>").text("사진"))
+	                				.append($("<td></td>").text("삭제"))  			
+	                	
+	                	);
+	                	
+	                	$(result.contacts).each(function (){ 
+							
+	                		$("#list-table").append(
+	    			    		    $("<tr></tr>")
+	    			    		        .append($("<td></td>").text(this.no))
+	    			    		        .append($("<td></td>").text(this.name))
+	    			    		        .append($("<td></td>").text(this.tel))
+	    			    		        .append($("<td></td>").text(this.address))
+	    			    		        .append($("<td></td>").append($("<img></img>").attr("src",this.photo)))
+	    			    		        .append($("<td></td>").append($("<input></input>").attr("id",this.no).attr("type","button").attr("class","del-button").attr("value","삭제")  ))	    	
+	    			    	);	                		
+	                		
+						});	                	
+	               	                   
+	                }, 
+	                error : function(xhr, textStatus, errorThrown){ 
+	                        alert(xhr);
+	                        alert(textStatus);  
+	                        alert(errorThrown);
+	                    }
+	                });		
+			
+		});
+	
+	</script>
+	
+	<script type="text/javascript">
+	//삭제 버튼 처리
+		$(document).on("click",".del-button",function(){
+			console.log(this);
+			$(this).parent().parent().remove();
+			
+		});
+	
+	</script>
+</head>
+<body>
+	<table id="list-table" width="500" border="1">
+	</table>
+</body>
+</html>
